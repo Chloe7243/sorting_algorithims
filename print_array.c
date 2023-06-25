@@ -28,7 +28,7 @@ void print_array(const int *array, size_t size)
  */
 int main(void)
 {
-    int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
+    int array[] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
     size_t n = sizeof(array) / sizeof(array[0]);
 
     print_array(array, n);

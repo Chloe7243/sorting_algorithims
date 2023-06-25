@@ -28,8 +28,11 @@ void selection_sort(int *array, size_t size)
 				idx = j;
 			}
 		}
-		array[idx] = array[i];
-		array[i] = smallest;
-		print_array(array, size);
+		if (array[i] > smallest)
+		{
+			array[idx] = array[i];
+			array[i] = smallest;
+			print_array(array, size);
+		}
 	}
 }
