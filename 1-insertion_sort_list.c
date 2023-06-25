@@ -11,9 +11,6 @@ void insertion_sort_list(listint_t **list)
 {
 	listint_t *ptr = *list, *ptr2;
 
-	if (!list || !*list || !(*list)->next)
-		exit(0);
-
 	do {
 		ptr2 = ptr->next;
 		while (ptr2->prev)
