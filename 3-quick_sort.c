@@ -18,7 +18,7 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 
 	while (i < j)
 	{
-		while (array[i] < pivot && i < high)
+		while (array[i] <= pivot && i < high)
 			i++;
 		do {
 			j--;
