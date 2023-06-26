@@ -9,37 +9,37 @@
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *ptr, *ptr2, *current;
+	listint_t *ptr = *list, *ptr2;
 
-	if (!list || !(*list) || !(*list)->next)
+	if (!list || !*list || !(*list)->next)
 		return;
 
-	current = (*list)->next;
-	while (current)
-	{
-		ptr = current;
-		ptr2 = ptr->prev;
-
-		while (ptr2 && ptr->n < ptr2->n)
+	do {
+		ptr2 = ptr->next;
+		while (ptr2->prev)
 		{
-			if (ptr->next)
-				ptr->next->prev = ptr2;
-
-			if (ptr2->prev)
-				ptr2->prev->next = ptr;
+			if (ptr2->n < ptr->n)
+			{
+				if (ptr2->next)
+					ptr2->next->prev = ptr;
+				ptr->next = ptr2->next;
+				ptr2->next = ptr;
+				ptr2->prev = ptr->prev;
+				if (ptr->prev)
+					ptr->prev->next = ptr2;
+				ptr->prev = ptr2;
+				if (!ptr2->prev)
+					*list = ptr2;
+				print_list(*list);
+			}
 			else
-				*list = ptr;
-
-			ptr->prev = ptr2->prev;
-			ptr2->next = ptr->next;
-			ptr->next = ptr2;
-			ptr2->prev = ptr;
-
-			ptr = ptr2->prev;
-			ptr2 = ptr ? ptr->prev : NULL;
+				break;
+			if (ptr2->prev)
+				ptr = ptr2->prev;
+			else if (!ptr2->prev && ptr->next)
+				ptr = ptr2;
 		}
-
-		current = current->next;
-	}
+		if (ptr->next)
+			ptr = ptr->next;
+	} while (ptr->next);
 }
-
