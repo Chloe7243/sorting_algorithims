@@ -1,11 +1,14 @@
 #include "sort.h"
 
 /**
- * partition - part
+ * partition - parts array into two using pivot
  *
- * @array - array to partion
- * @low: low index
- * @high: high index
+ * @array: array to sort
+ * @low: lowest index to iterate to
+ * @high: highest index to iterate to
+ * @size: size of original array
+ *
+ * Return: sorted index
  */
 
 size_t partition(int *array, size_t low, size_t high, size_t size)
@@ -13,13 +16,13 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 	int pivot = array[high], smaller;
 	size_t i = low, j = high;
 
-	while(i < j)
+	while (i < j)
 	{
 		while (array[i] <= pivot && i < high)
 			i++;
 		do {
 			j--;
-		}while (array[j] > pivot && j > low);
+		} while (array[j] > pivot && j > low);
 		if (i < j)
 		{
 			smaller = array[j];
@@ -32,12 +35,24 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 	array[i] = pivot;
 	print_array(array, size);
 
-	return j;
+	return (j);
 }
+
+/**
+ * main_sort - sort using quick sort algo
+ *
+ * @array: array to sort
+ * @low: lowest index to iterate to
+ * @high: highest index to iterate to
+ * @size: size of original array
+ *
+ * Return: void
+ */
 
 void main_sort(int *array, size_t low, size_t high, size_t size)
 {
 	size_t j;
+
 	if (low < high)
 	{
 		j = partition(array, low, high, size);
