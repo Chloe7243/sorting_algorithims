@@ -1,7 +1,7 @@
 #include "sort.h"
 
 /**
- * partition - parts array into two using pivot
+ * partition - partitions array using the Lomuto partition scheme
  *
  * @array: array to sort
  * @low: lowest index to iterate to
@@ -13,36 +13,37 @@
 
 size_t partition(int *array, size_t low, size_t high, size_t size)
 {
-	int pivot = array[high], smaller;
-	size_t i = low, j = high;
+	int pivot = array[high], tmp;
+	size_t i = low, j;
 
-	while (i < j)
+	for (j = low; j < high; j++)
 	{
-		while (array[i] <= pivot && i < high)
-			i++;
-		do {
-			j--;
-		} while (array[j] > pivot && j > low);
-		if (i < j)
+		if (array[j] < pivot)
 		{
-			smaller = array[j];
-			array[j] = array[i];
-			array[i] = smaller;
-			print_array(array, size);
+			if (i != j)
+			{
+				tmp = array[i];
+				array[i] = array[j];
+				array[j] = tmp;
+				print_array(array, size);
+			}
+			i++;
 		}
 	}
-	if (high != i)
+
+	if (array[i] != array[high])
 	{
-		array[high] = array[i];
-		array[i] = pivot;
+		tmp = array[i];
+		array[i] = array[high];
+		array[high] = tmp;
 		print_array(array, size);
 	}
 
-	return (j);
+	return i;
 }
 
 /**
- * main_sort - sort using quick sort algo
+ * main_sort - sorts using the quick sort algorithm
  *
  * @array: array to sort
  * @low: lowest index to iterate to
@@ -59,7 +60,7 @@ void main_sort(int *array, size_t low, size_t high, size_t size)
 	if (low < high)
 	{
 		j = partition(array, low, high, size);
-		main_sort(array, low, j, size);
+		main_sort(array, low, j - 1, size);
 		main_sort(array, j + 1, high, size);
 	}
 }
@@ -77,5 +78,6 @@ void quick_sort(int *array, size_t size)
 
 	if (!array || size < 2)
 		return;
+
 	main_sort(array, low, high, size);
 }
