@@ -31,9 +31,12 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 			print_array(array, size);
 		}
 	}
-	array[high] = array[i];
-	array[i] = pivot;
-	print_array(array, size);
+	if (high != i)
+	{
+		array[high] = array[i];
+		array[i] = pivot;
+		print_array(array, size);
+	}
 
 	return (j);
 }
@@ -72,7 +75,7 @@ void quick_sort(int *array, size_t size)
 {
 	size_t low = 0, high = size - 1;
 
-	if (!array)
+	if (!array || size < 2)
 		return;
 	main_sort(array, low, high, size);
 }
