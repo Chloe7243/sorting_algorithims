@@ -28,7 +28,7 @@ void print_array(const int *array, size_t size)
  */
 int main(void)
 {
-	int array[] = {100, 90 ,80, 70 ,60, 0, 50, 40, 30, 20, 10};
+	int array[] = {10, 90 ,80, 70 ,60, 0, 50, 40, 30, 20, 10};
 	size_t n = sizeof(array) / sizeof(array[0]);
 
 	print_array(array, n);
