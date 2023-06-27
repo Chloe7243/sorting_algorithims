@@ -56,13 +56,13 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 
 void main_sort(int *array, size_t low, size_t high, size_t size)
 {
-	size_t j;
+	size_t pi;
 
 	if (low < high)
 	{
-		j = partition(array, low, high, size);
-		main_sort(array, low, j, size);
-		main_sort(array, j + 1, high, size);
+		pi = partition(array, low, high, size);
+		main_sort(array, pi + 1, high, size);
+		main_sort(array, low, pi, size);
 	}
 }
 
