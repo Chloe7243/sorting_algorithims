@@ -1,83 +1,78 @@
 #include "sort.h"
 
 /**
- * swap_nodes - swaps nodes
+ * swap_nodes - swaps two nodes in a doubly linked list
  *
- * @ptr: node to be swapped
- * @ptr2: second node to be swapped
- * Return: void
+ * @list: double pointer to the head of the list
+ * @node1: first node to swap
+ * @node2: second node to swap
  */
-
-void swap_nodes(listint_t **list, listint_t *ptr, listint_t *ptr2)
+void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2)
 {
-	if (ptr2->next)
-		ptr2->next->prev = ptr;
+	listint_t *prev_node1, *next_node1, *next_node2;
 
-	if (ptr->prev)
-		ptr->prev->next = ptr2;
-	else
-		*list = ptr;
-
-	ptr2->prev = ptr->prev;
-	ptr->next = ptr2->next;
-	ptr2->next = ptr;
-	ptr->prev = ptr2;
-}
-
-/**
- * cocktail_sort_list - sorts an array using the cocktail shaker sort algorithm
- *
- * @list: list to sort
- * Return: void
- */
-
-void cocktail_sort_list(listint_t **list)
-{
-	listint_t *ptr, *ptr2;
-	int swapped;
-
-	if (!(*list) || !(*list)->next)
+	if (node1 == NULL || node2 == NULL)
 		return;
 
-	ptr = *list;
+	prev_node1 = node1->prev;
+	next_node1 = node1->next;
+	next_node2 = node2->next;
+
+	if (prev_node1 != NULL)
+		prev_node1->next = node2;
+	else
+		*list = node2;
+
+	if (next_node2 != NULL)
+		next_node2->prev = node1;
+
+	node2->prev = prev_node1;
+	node2->next = node1;
+	node1->prev = node2;
+	node1->next = next_node2;
+
+	if (next_node1 != NULL)
+		next_node1->prev = node2;
+}
+
+
+/**
+ * cocktail_sort_list - sorts a doubly linked list of integers in ascending
+ *                      order using the Cocktail shaker sort algorithm
+ *
+ * @list: double pointer to the head of the list
+ */
+void cocktail_sort_list(listint_t **list)
+{
+	int swapped = 0;
+	listint_t *curr;
+
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
+
 	do {
 		swapped = 0;
-		while (ptr->next != NULL)
+		for (curr = *list; curr->next != NULL; curr = curr->next)
 		{
-			ptr2 = ptr->next;
-			printf("ptr2 dey\n");
-			if (ptr2->n < ptr->n)
+			if (curr->n > curr->next->n)
 			{
-				printf("will be swapped\n");
-				swap_nodes(list, ptr, ptr2);
+				swap_nodes(list, curr, curr->next);
 				print_list(*list);
 				swapped = 1;
 			}
-			else
-				ptr = ptr2;
 		}
-
-		if (swapped)
+		if (swapped == 0)
+			break;
+		swapped = 0;
+		for (curr = curr->prev; curr->prev != NULL; curr = curr->prev)
 		{
-			printf("swapped\n");
-			ptr = ptr->prev;
-
-			swapped = 0;
-			while (ptr->prev)
+			if (curr->n < curr->prev->n)
 			{
-				ptr2 = ptr;
-				if (ptr2->n < ptr->n)
-				{
-					printf("will be swapped\n");
-					swap_nodes(list, ptr, ptr2);
-					swapped = 1;
-					ptr = ptr2;
-				}
-				else
-					ptr = ptr2;
+				swap_nodes(list, curr->prev, curr);
+				print_list(*list);
+				swapped = 1;
 			}
 		}
-
-		printf("end first while\n");
 	} while (swapped);
 }
+

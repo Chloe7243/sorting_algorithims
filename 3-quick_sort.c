@@ -1,84 +1,89 @@
 #include "sort.h"
 
-/**
- * partition - partitions array into two using pivot
- *
- * @array: array to sort
- * @low: lowest index to iterate to
- * @high: highest index to iterate to
- * @size: size of original array
- *
- * Return: sorted index
- */
-
-size_t partition(int *array, size_t low, size_t high, size_t size)
-{
-	int pivot = array[high], smaller;
-	size_t i = low, j = high - 1;
-
-	while (i < j)
-	{
-		while (array[i] <= pivot && i < j)
-			i++;
-		while (array[j] >= pivot && j > low)
-			j--;
-
-		if (i < j)
-		{
-			smaller = array[j];
-			array[j] = array[i];
-			array[i] = smaller;
-			print_array(array, size);
-		}
-	}
-
-	if (high != i)
-	{
-		array[high] = array[i];
-		array[i] = pivot;
-		print_array(array, size);
-	}
-
-	return (j);
-}
 
 /**
- * main_sort - sort using quick sort algo
+ * swap - swap two integers using aritmetic operations
+ * without using an intermediate/temporary variable
  *
- * @array: array to sort
- * @low: lowest index to iterate to
- * @high: highest index to iterate to
- * @size: size of original array
+ * @array: array to be printed after swap
+ * @size: size of the array
  *
- * Return: void
+ * @a: pointer to the first integer
+ * @b: pointer to the secod integer
  */
-
-void main_sort(int *array, size_t low, size_t high, size_t size)
+void swap(int array[], size_t size, int *a, int *b)
 {
-	size_t pi;
-
-	if (low < high)
+	if (*a != *b)
 	{
-		pi = partition(array, low, high, size);
-		main_sort(array, pi + 1, high, size);
-		main_sort(array, low, pi, size);
+		*a = *a + *b;
+		*b = *a - *b;
+		*a = *a - *b;
+
+		print_array((const int *) array, size);
 	}
 }
 
+
+
 /**
- * quick_sort - sorts an array of integers using the quick sort algorithm
+ * lomuto_partition - partitions the array
  *
+ * @array: array to be patitioned
+ * @size: size of the array
+ *
+ * @li: lower index of the range to be sorted
+ * @hi: higher index of the range to be sorted
+ *
+ * Return: pivot
+ */
+
+size_t lomuto_partition(int array[], size_t size, ssize_t li, ssize_t hi)
+{
+	int i, j, pivot = array[hi];
+
+	for (i = j = li; j < hi; j++)
+		if (array[j] < pivot)
+			swap(array, size, &array[j], &array[i++]);
+	swap(array, size, &array[i], &array[hi]);
+
+	return (i);
+}
+
+
+/**
+ * inner_sort - recursively sort the left and right handsides of a pivot
+ *
+ * @array: array being sorted
+ * @size: length of the array
+ *
+ * @li: lower index of range to be sorted
+ * @hi: higher index of range to be sorted
+ */
+void inner_sort(int array[], size_t size, ssize_t li, ssize_t hi)
+{
+	size_t pivot;
+
+	if (li < hi)
+	{
+		pivot = lomuto_partition(array, size, li, hi);
+
+		inner_sort(array, size, li, pivot - 1);
+		inner_sort(array, size, pivot + 1, hi);
+	}
+}
+
+/**
+ * quick_sort - sort an arry using the quick sort algorithm
  * @array: array to be sorted
- * @size: size of array
+ * @size: size of the array
  */
+
 
 void quick_sort(int *array, size_t size)
 {
-	size_t low = 0, high = size - 1;
-
-	if (!array || size < 2)
+	if (!array || !size)
 		return;
 
-	main_sort(array, low, high, size);
-}
+	inner_sort(array, size, 0, size - 1);
 
+}
