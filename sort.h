@@ -25,6 +25,7 @@ typedef struct listint_s
 /* Helpers */
 void print_array(const int *array, size_t size);
 void print_list(const listint_t *list);
+void swap_nodes(listint_t **list, listint_t **p);
 void check_list(const listint_t *list);
 void check_array(const int *array, size_t size);
 int *rand_array(int len, int max);
