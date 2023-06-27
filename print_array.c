@@ -28,13 +28,13 @@ void print_array(const int *array, size_t size)
  */
 int main(void)
 {
-	int array[] = {74, 7, 43, 68, 7, 94, 9, 21, 8, 9};
-	size_t n = sizeof(array) / sizeof(array[0]);
+    int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
+    size_t n = sizeof(array) / sizeof(array[0]);
 
-	print_array(array, n);
-	printf("\n");
-	quick_sort(array, n);
-	printf("\n");
-	print_array(array, n);
-	return (0);
+    print_array(array, n);
+    printf("\n");
+    shell_sort(array, n);
+    printf("\n");
+    print_array(array, n);
+    return (0);
 }
