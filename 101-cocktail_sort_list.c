@@ -33,53 +33,51 @@ void swap_nodes(listint_t **list, listint_t *ptr, listint_t *ptr2)
 
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *ptr, *ptr2, *current;
-	int swapped = 0;
+	listint_t *ptr, *ptr2;
+	int swapped;
 
 	if (!(*list) || !(*list)->next)
 		return;
 
-	current = (*list)->next;
+	ptr = *list;
 	do {
 		swapped = 0;
-		ptr = current->prev;
-		ptr2 = current;
-
-		while (ptr2)
+		while (ptr->next != NULL)
 		{
+			ptr2 = ptr->next;
+			printf("ptr2 dey\n");
 			if (ptr2->n < ptr->n)
 			{
-				swap_nodes(list, ptr, ptr);
+				printf("will be swapped\n");
+				swap_nodes(list, ptr, ptr2);
 				print_list(*list);
 				swapped = 1;
-				ptr = ptr->next;
-				ptr2 = ptr2->next;
 			}
 			else
-			{
-				ptr = ptr->next;
-				ptr2 = ptr2->next;
-			}
+				ptr = ptr2;
 		}
 
 		if (swapped)
 		{
-			ptr2 = ptr;
+			printf("swapped\n");
 			ptr = ptr->prev;
 
 			swapped = 0;
-			while (ptr2 != current)
+			while (ptr->prev)
 			{
+				ptr2 = ptr;
 				if (ptr2->n < ptr->n)
 				{
+					printf("will be swapped\n");
 					swap_nodes(list, ptr, ptr2);
-					print_list(*list);
 					swapped = 1;
+					ptr = ptr2;
 				}
-				ptr = ptr->prev;
-				ptr2 = ptr2->prev;
+				else
+					ptr = ptr2;
 			}
 		}
-		current = current->next;
-	} while (current && swapped);
+
+		printf("end first while\n");
+	} while (swapped);
 }
