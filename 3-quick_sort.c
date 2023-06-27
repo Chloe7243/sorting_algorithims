@@ -1,7 +1,7 @@
 #include "sort.h"
 
 /**
- * partition - parts array into two using pivot
+ * partition - partitions array into two using pivot
  *
  * @array: array to sort
  * @low: lowest index to iterate to
@@ -18,11 +18,12 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 
 	while (i < j)
 	{
-		while (array[i] <= pivot && i < high)
+		while (array[i] <= pivot && i < j)
 			i++;
 		do {
 			j--;
-		} while (array[j] >= pivot && j > low);
+		} while (array[j] > pivot && j > low);
+
 		if (i < j)
 		{
 			smaller = array[j];
@@ -31,6 +32,7 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 			print_array(array, size);
 		}
 	}
+
 	if (high != i)
 	{
 		array[high] = array[i];
@@ -77,5 +79,7 @@ void quick_sort(int *array, size_t size)
 
 	if (!array || size < 2)
 		return;
+
 	main_sort(array, low, high, size);
 }
+
