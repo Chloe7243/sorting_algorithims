@@ -22,7 +22,7 @@ size_t partition(int *array, size_t low, size_t high, size_t size)
 			i++;
 		do {
 			j--;
-		} while (array[j] > pivot && j > low);
+		} while (array[j] >= pivot && j > low);
 		if (i < j)
 		{
 			smaller = array[j];
