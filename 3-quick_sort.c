@@ -14,15 +14,14 @@
 size_t partition(int *array, size_t low, size_t high, size_t size)
 {
 	int pivot = array[high], smaller;
-	size_t i = low, j = high;
+	size_t i = low, j = high - 1;
 
 	while (i < j)
 	{
 		while (array[i] <= pivot && i < j)
 			i++;
-		do {
+		while (array[j] >= pivot && j > low)
 			j--;
-		} while (array[j] >= pivot && j > low);
 
 		if (i < j)
 		{
